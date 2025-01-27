@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nestjsToDO
+    container_name: nestjsToDo
     environment:
       DATABASE_URL: postgres://root:root@postgres:5432/todo
     ports:
