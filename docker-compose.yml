@@ -24,6 +24,7 @@ services:
       - ./src:/usr/src/app/src
     depends_on:
       - postgres
+    entrypoint: ["./wait-for-it.sh", "postgres:5432", "--", "npm", "run", "start"]
 
   pgadmin:
     image: dpage/pgadmin4
