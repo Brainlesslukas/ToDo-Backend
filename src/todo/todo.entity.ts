@@ -5,7 +5,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { Auth } from '../auth/auth.entity';
 
 @Entity('todo_data')
 export class ToDoEntity extends BaseEntity {
@@ -45,4 +48,11 @@ export class ToDoEntity extends BaseEntity {
     nullable: true,
   })
   completed_at: Date | null;
+
+  @ManyToOne(() => Auth, (auth) => auth.todos)
+  @JoinColumn({ name: 'authorId' })
+  author: Auth;
+
+  @Column()
+  authorId: number;
 }
