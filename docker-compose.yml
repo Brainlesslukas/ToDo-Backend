@@ -24,6 +24,7 @@ services:
       - ./src:/usr/src/app/src
     depends_on:
       - postgres
+    pull_policy: build
 
   pgadmin:
     image: dpage/pgadmin4
