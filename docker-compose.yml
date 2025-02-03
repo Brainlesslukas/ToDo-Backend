@@ -19,7 +19,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - stack.env
+      - /data/compose/stacks/todoapistack/ToDo-Backend/stack.env
     volumes:
       - ./src:/usr/src/app/src
     depends_on:
