@@ -1,11 +1,20 @@
 {
   "name": "todo-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "main": "src/main.ts",
   "private": true,
+  "description": "A simple ToDo-App Backend for learning Nest.js.",
+  "homepage": "https://github.com/Brainlesslukas/ToDo-Backend#readme",
+  "bugs": {
+    "url": "https://github.com/Brainlesslukas/ToDo-Backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brainlesslukas/ToDo-Backend.git"
+  },
   "license": "UNLICENSED",
+  "author": "",
+  "type": "commonjs",
+  "main": "src/main.ts",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

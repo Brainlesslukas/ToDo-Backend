@@ -6,7 +6,7 @@ import {
   Unique,
   OneToMany,
 } from 'typeorm';
-import { ToDoEntity } from '../todo/todo.entity'; // Korrekt importieren
+import { ToDoEntity } from '../todo/todo.entity';
 
 @Entity('Auth')
 @Unique(['email'])
