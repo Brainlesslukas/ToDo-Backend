@@ -18,25 +18,28 @@ export class ToDoController {
   constructor(private readonly toDoService: ToDoService) {}
 
   @Get('test')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   HelloWorld(): string {
     return this.toDoService.HelloWorld();
   }
 
   @Get()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   async get_ToDo(): Promise<ToDoEntity[]> {
     return this.toDoService.get_ToDo();
   }
 
   @Post('create')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('jwt'))
   async create_ToDo(
     @Body('todo_title') todo_title: string,
     @Body('todo_description') todo_description: string,
     @Req() req: Request,
   ): Promise<ToDoEntity> {
     const user = req.user;
+    console.log('Benutzer aus JWT:', user);
+    console.log('JWT Payload:', req.user);
+
     const authorId = user['id'];
     return await this.toDoService.create_ToDo(
       todo_title,
