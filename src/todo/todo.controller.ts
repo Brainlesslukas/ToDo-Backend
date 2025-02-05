@@ -49,7 +49,7 @@ export class ToDoController {
     );
   }
 
-
+  /*
   @Put('update/:id')
   @UseGuards(AuthGuard())
   async update_ToDo(
@@ -67,4 +67,5 @@ export class ToDoController {
     );
     return { message: 'Successfully updated ToDo!' };
   }
+   */
 }
