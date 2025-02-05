@@ -27,6 +27,7 @@ export class ToDoService {
     return this.toDoRepository.save(newToDo);
   }
 
+  /*
   async update_ToDo(
     id: number,
     todo_title: string,
@@ -37,6 +38,7 @@ export class ToDoService {
       todo_description,
     });
   }
+   */
 
   async get_ToDo(authorId: number): Promise<ToDoEntity[]> {
     return this.toDoRepository.find({
