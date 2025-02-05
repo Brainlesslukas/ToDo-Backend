@@ -31,16 +31,16 @@ export class ToDoService {
     id: number,
     todo_title: string,
     todo_description: string,
-    todo_active: boolean,
   ): Promise<void> {
     await this.toDoRepository.update(id, {
       todo_title,
       todo_description,
-      todo_active,
     });
   }
 
-  async get_ToDo(): Promise<ToDoEntity[]> {
-    return this.toDoRepository.find();
+  async get_ToDo(authorId: number): Promise<ToDoEntity[]> {
+    return this.toDoRepository.find({
+      where: { authorId },
+    });
   }
 }

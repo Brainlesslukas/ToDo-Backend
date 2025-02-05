@@ -25,8 +25,9 @@ export class ToDoController {
 
   @Get()
   @UseGuards(AuthGuard('jwt'))
-  async get_ToDo(): Promise<ToDoEntity[]> {
-    return this.toDoService.get_ToDo();
+  async get_ToDo(@Req() req: Request): Promise<ToDoEntity[]> {
+    const user = req.user;
+    return this.toDoService.get_ToDo(user['id']);
   }
 
   @Post('create')
@@ -48,6 +49,7 @@ export class ToDoController {
     );
   }
 
+
   @Put('update/:id')
   @UseGuards(AuthGuard())
   async update_ToDo(
@@ -56,14 +58,12 @@ export class ToDoController {
     body: {
       todo_title: string;
       todo_description: string;
-      todo_active: boolean;
     },
   ) {
     await this.toDoService.update_ToDo(
       id,
       body.todo_title,
       body.todo_description,
-      body.todo_active,
     );
     return { message: 'Successfully updated ToDo!' };
   }
