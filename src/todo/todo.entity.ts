@@ -54,5 +54,5 @@ export class ToDoEntity extends BaseEntity {
   author: Auth;
 
   @Column()
-  authorId: number;
+  authorId: string;
 }

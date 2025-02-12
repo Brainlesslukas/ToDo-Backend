@@ -6,6 +6,6 @@ export class StatsController {
   @Get('test')
   @UseGuards(TokenGuard)
   TestStatsController() {
-    return { message: 'Hello Admin, welcome to the Stats route!' };
+    return { message: 'Hello Admin, welcome to the Stats route! The route is working fine.' };
   }
 }
