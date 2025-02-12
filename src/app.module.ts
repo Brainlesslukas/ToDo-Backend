@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ToDoModule } from './todo/todo.module';
+import { StatsController } from './stats/stats.controller';
+import { TokenGuard } from "./stats/stats.guard";
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { ToDoModule } from './todo/todo.module';
     AuthModule,
     ToDoModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, StatsController],
+  providers: [AppService, TokenGuard],
 })
 export class AppModule {}
