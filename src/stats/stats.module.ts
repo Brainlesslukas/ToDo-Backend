@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from '../auth/auth.entity';
 import { AuthModule } from '../auth/auth.module';
 
+console.log('📌 StatsModule wird geladen');
+console.log('📌 Auth Entity geladen:', Auth);
+
 @Module({
   imports: [TypeOrmModule.forFeature([Auth]), AuthModule],
   controllers: [StatsController],
