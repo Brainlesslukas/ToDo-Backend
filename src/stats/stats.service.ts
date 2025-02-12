@@ -10,9 +10,8 @@ export class StatsService {
     private readonly authRepository: Repository<Auth>,
   ) {}
 
-  async countUsers(): Promise<Auth | null> {
-    return this.authRepository.findOne({
-      order: { user_number: 'DESC' },
-    });
+  async countUsers(): Promise<number> {
+    const userCount = await this.authRepository.count();
+    return userCount;
   }
 }
