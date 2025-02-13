@@ -14,5 +14,6 @@ import { ToDoEntity } from './todo.entity';
   ],
   controllers: [ToDoController],
   providers: [ToDoService],
+  exports: [TypeOrmModule, ToDoService],
 })
 export class ToDoModule {}

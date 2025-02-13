@@ -15,9 +15,15 @@ export class StatsController {
     };
   }
 
-  @Get('count-user')
+  @Get('count-users')
   @UseGuards(TokenGuard)
   async countUsers() {
     return this.statsService.countUsers();
+  }
+
+  @Get('count-todos')
+  @UseGuards(TokenGuard)
+  async countTodos() {
+    return this.statsService.countTodos();
   }
 }
