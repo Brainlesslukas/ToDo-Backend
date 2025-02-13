@@ -54,7 +54,7 @@ export class ToDoEntity extends BaseEntity {
     type: 'int',
   })
   @Generated('increment')
-  user_number: number;
+  todo_number: number;
 
   @ManyToOne(() => Auth, (auth) => auth.todos)
   @JoinColumn({ name: 'authorId' })
