@@ -8,7 +8,6 @@ import {
   Generated,
 } from 'typeorm';
 import { ToDoEntity } from '../todo/todo.entity';
-import { v4 as uuidv4 } from 'uuid';
 
 @Entity('Auth')
 @Unique(['email'])

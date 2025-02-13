@@ -7,13 +7,14 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  Generated,
 } from 'typeorm';
 import { Auth } from '../auth/auth.entity';
 
 @Entity('todo_data')
 export class ToDoEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     type: 'varchar',
@@ -48,6 +49,12 @@ export class ToDoEntity extends BaseEntity {
     nullable: true,
   })
   completed_at: Date | null;
+
+  @Column({
+    type: 'int',
+  })
+  @Generated('increment')
+  user_number: number;
 
   @ManyToOne(() => Auth, (auth) => auth.todos)
   @JoinColumn({ name: 'authorId' })
