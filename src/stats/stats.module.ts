@@ -4,12 +4,19 @@ import { StatsService } from './stats.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from '../auth/auth.entity';
 import { AuthModule } from '../auth/auth.module';
+import { ToDoEntity } from '../todo/todo.entity';
+import { ToDoModule } from '../todo/todo.module';
 
 console.log('📌 StatsModule wird geladen');
 console.log('📌 Auth Entity geladen:', Auth);
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Auth]), AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([Auth]),
+    TypeOrmModule.forFeature([ToDoEntity]),
+    ToDoModule,
+    AuthModule,
+  ],
   controllers: [StatsController],
   providers: [StatsService],
   exports: [StatsService],

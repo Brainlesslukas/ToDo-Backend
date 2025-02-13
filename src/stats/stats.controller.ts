@@ -26,4 +26,10 @@ export class StatsController {
   async countTodos() {
     return this.statsService.countTodos();
   }
+
+  @Get('portainer-uptime')
+  @UseGuards(TokenGuard)
+  async portainerUptime() {
+    return this.statsService.portainerUptime();
+  }
 }

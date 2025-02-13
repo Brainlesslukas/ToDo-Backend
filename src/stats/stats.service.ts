@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Auth } from '../auth/auth.entity';
 import { Repository } from 'typeorm';
-import { ToDoEntity } from "../todo/todo.entity";
+import { ToDoEntity } from '../todo/todo.entity';
+import { HttpService } from '@nestjs/axios';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class StatsService {
@@ -12,6 +14,8 @@ export class StatsService {
 
     @InjectRepository(ToDoEntity)
     private readonly toDoEntityRepository: Repository<ToDoEntity>,
+
+    private readonly httpService: HttpService,
   ) {}
 
   async countUsers(): Promise<number> {
@@ -20,7 +24,14 @@ export class StatsService {
   }
 
   async countTodos(): Promise<number> {
-    const todoCount = await this.authRepository.count();
+    const todoCount = await this.toDoEntityRepository.count();
     return todoCount;
+  }
+
+  async portainerUptime() {
+    const resonse = await lastValueFrom(
+      this.httpService.get('https://api.brainlesslukas.xyz'),
+    );
+    return resonse.data;
   }
 }

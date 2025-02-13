@@ -6,9 +6,10 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ToDoModule } from './todo/todo.module';
 import { StatsController } from './stats/stats.controller';
-import { TokenGuard } from "./stats/stats.guard";
+import { TokenGuard } from './stats/stats.guard';
 import { StatsService } from './stats/stats.service';
 import { StatsModule } from './stats/stats.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { StatsModule } from './stats/stats.module';
     AuthModule,
     ToDoModule,
     StatsModule,
+    HttpModule,
   ],
   controllers: [AppController, StatsController],
   providers: [AppService, TokenGuard, StatsService],
