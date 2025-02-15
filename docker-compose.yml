@@ -22,9 +22,11 @@ services:
       - ./stack.env
     volumes:
       - ./src:/usr/src/app/src
+      - /usr/src/app/node_modules
     depends_on:
       - postgres
     pull_policy: build
+    restart: always
 
   pgadmin:
     image: dpage/pgadmin4

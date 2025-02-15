@@ -9,7 +9,6 @@ export class ToDoService {
     @InjectRepository(ToDoEntity)
     private readonly toDoRepository: Repository<ToDoEntity>,
   ) {}
-
   HelloWorld(): string {
     return 'Hello, authenticated user!';
   }
@@ -17,7 +16,7 @@ export class ToDoService {
   async create_ToDo(
     todo_title: string,
     todo_description: string,
-    authorId: number,
+    authorId: string,
   ): Promise<ToDoEntity> {
     const newToDo = this.toDoRepository.create({
       todo_title,
@@ -27,20 +26,7 @@ export class ToDoService {
     return this.toDoRepository.save(newToDo);
   }
 
-  /*
-  async update_ToDo(
-    id: number,
-    todo_title: string,
-    todo_description: string,
-  ): Promise<void> {
-    await this.toDoRepository.update(id, {
-      todo_title,
-      todo_description,
-    });
-  }
-   */
-
-  async get_ToDo(authorId: number): Promise<ToDoEntity[]> {
+  async get_ToDo(authorId: string): Promise<ToDoEntity[]> {
     return this.toDoRepository.find({
       where: { authorId },
     });

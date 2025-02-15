@@ -1,17 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Body,
-  UseGuards,
-  Param,
-  Req,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ToDoService } from './todo.service';
 import { ToDoEntity } from './todo.entity';
 import { Request } from 'express';
+import { User } from '../auth/user.interface';
 
 @Controller('todo')
 export class ToDoController {
@@ -26,8 +18,13 @@ export class ToDoController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   async get_ToDo(@Req() req: Request): Promise<ToDoEntity[]> {
-    const user = req.user;
-    return this.toDoService.get_ToDo(user['id']);
+    const user = req.user as User;
+    if (!user) {
+      throw new Error('User is not authenticated');
+    }
+
+    const userId = user.id;
+    return this.toDoService.get_ToDo(userId);
   }
 
   @Post('create')
@@ -37,35 +34,19 @@ export class ToDoController {
     @Body('todo_description') todo_description: string,
     @Req() req: Request,
   ): Promise<ToDoEntity> {
-    const user = req.user;
+    const user = req.user as User;
+    if (!user) {
+      throw new Error('User is not authenticated');
+    }
+
     console.log('Benutzer aus JWT:', user);
     console.log('JWT Payload:', req.user);
 
-    const authorId = user['id'];
+    const authorId = user.id;
     return await this.toDoService.create_ToDo(
       todo_title,
       todo_description,
       authorId,
     );
   }
-
-  /*
-  @Put('update/:id')
-  @UseGuards(AuthGuard())
-  async update_ToDo(
-    @Param('id') id: number,
-    @Body()
-    body: {
-      todo_title: string;
-      todo_description: string;
-    },
-  ) {
-    await this.toDoService.update_ToDo(
-      id,
-      body.todo_title,
-      body.todo_description,
-    );
-    return { message: 'Successfully updated ToDo!' };
-  }
-   */
 }
