@@ -6,9 +6,7 @@ COPY package.json package-lock.json ./
 
 RUN npm install --only=production
 
-COPY . .
-
-RUN npm run build
+COPY dist ./dist
 
 EXPOSE 3000
 
