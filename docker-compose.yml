@@ -19,6 +19,7 @@ services:
     depends_on:
       - postgres
     restart: always
+    pull_policy: build
 
   pgadmin:
     image: dpage/pgadmin4
