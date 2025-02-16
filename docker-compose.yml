@@ -9,7 +9,7 @@ services:
       - "5432:5432"
 
   nestjs:
-    image: nestjs-todo:latest
+    build: .
     ports:
       - "3000:3000"
     depends_on:
