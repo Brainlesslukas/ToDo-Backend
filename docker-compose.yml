@@ -19,8 +19,6 @@ services:
       - "3000:3000"
     restart: always
     pull_policy: build
-    env_file:
-      - stack.env
 
   pgadmin:
     image: dpage/pgadmin4
