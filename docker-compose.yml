@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:13
-    container_name: postgresToDo
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -25,7 +24,6 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadminToDo
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
