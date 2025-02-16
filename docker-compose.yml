@@ -18,6 +18,8 @@ services:
     ports:
       - "3000:3000"
     restart: always
+    env_file:
+      - stack.env
 
   pgadmin:
     image: dpage/pgadmin4
