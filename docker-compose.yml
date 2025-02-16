@@ -9,11 +9,14 @@ services:
       - "5432:5432"
 
   nestjs:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
       - postgres
+    restart: always
 
   pgadmin:
     image: dpage/pgadmin4
