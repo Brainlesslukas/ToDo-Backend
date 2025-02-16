@@ -2,14 +2,14 @@ FROM node:20-bullseye
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install --only=production
 
-RUN npm install ts-node --save-dev
+COPY . .
 
-COPY ./src ./src
+RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npx", "ts-node", "src/main.ts"]
+CMD ["node", "dist/main.js"]
