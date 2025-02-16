@@ -18,8 +18,8 @@ services:
     ports:
       - "3000:3000"
     restart: always
-    env_file:
-      - stack.env
+    #env_file:
+      #- stack.env Geht leider ab dann nciht, obwohl in Portainer GUI hochgeladen :(
 
   pgadmin:
     image: dpage/pgadmin4
