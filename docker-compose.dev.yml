@@ -12,7 +12,10 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   nestjs:
-    image: nestjs-todo:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjsToDo
     ports:
       - "3000:3000"
     env_file:
@@ -22,6 +25,7 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - postgres
+    restart: always
 
   pgadmin:
     image: dpage/pgadmin4
