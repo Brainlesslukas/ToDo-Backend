@@ -12,8 +12,6 @@ services:
     image: nestjs-todo:latest
     ports:
       - "3000:3000"
-    env_file:
-      - stack.env
     depends_on:
       - postgres
 
