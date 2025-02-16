@@ -7,18 +7,13 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
 
   nestjs:
     image: nestjs-todo:latest
     ports:
       - "3000:3000"
     env_file:
-      - ./stack.env
-    volumes:
-      - ./src:/usr/src/app/src
-      - /usr/src/app/node_modules
+      - stack.env
     depends_on:
       - postgres
 
