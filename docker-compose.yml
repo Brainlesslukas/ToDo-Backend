@@ -15,7 +15,7 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - ./stack.env
+      - ./.env
     volumes:
       - ./src:/usr/src/app/src
       - /usr/src/app/node_modules
