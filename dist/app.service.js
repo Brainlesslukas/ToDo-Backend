@@ -11,8 +11,9 @@ const common_1 = require("@nestjs/common");
 let AppService = class AppService {
     getHello() {
         return {
-            message: 'Welcome to my ToDo-App API',
+            message: 'Welcome to my ToDo-App API.',
             status: 'success',
+            version: '1.0',
         };
     }
 };
