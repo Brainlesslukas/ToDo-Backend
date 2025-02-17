@@ -13,7 +13,7 @@ let AppService = class AppService {
         return {
             message: 'Welcome to my ToDo-App API.',
             status: 'success',
-            version: '1.0',
+            version: '2.0',
         };
     }
 };
