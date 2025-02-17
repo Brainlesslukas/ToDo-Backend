@@ -20,17 +20,6 @@ services:
     restart: always
     #env_file:
       #- stack.env Geht leider ab dann nciht, obwohl in Portainer GUI hochgeladen :(
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-      PORTAINER_CONTAINER_ID: ${PORTAINER_CONTAINER_ID}
-      PORTAINER_SECRET: ${PORTAINER_SECRET}
-
 
   pgadmin:
     image: dpage/pgadmin4
