@@ -4,8 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
-RUN npm install -g @nestjs/cli  # NestJS CLI global installieren
+RUN npm install --only=production
 
 COPY . .
 
