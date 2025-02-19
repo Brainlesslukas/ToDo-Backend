@@ -12,6 +12,10 @@ import { StatsModule } from './stats/stats.module';
 import { HttpModule } from '@nestjs/axios';
 import * as process from 'node:process';
 
+console.log(process.env.POSTGRES_USER);
+console.log(process.env.POSTGRES_PASSWORD);
+console.log(process.env.POSTGRES_DB);
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({

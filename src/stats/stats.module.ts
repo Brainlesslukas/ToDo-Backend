@@ -17,7 +17,7 @@ console.log('📌 Auth Entity geladen:', Auth);
     TypeOrmModule.forFeature([ToDoEntity]),
     ToDoModule,
     AuthModule,
-    HttpModule
+    HttpModule,
   ],
   controllers: [StatsController],
   providers: [StatsService],
