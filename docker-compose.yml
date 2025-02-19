@@ -15,19 +15,20 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_PASSWORD: §{ADMIN_PASSWORD}
+      PORTAINER_CONTAINER_ID: ${PORTAINER_CONTAINER_ID}
+      PORTAINER_SECRET: ${PORTAINER_SECRET}
     ports:
       - "3000:3000"
     restart: always
-    #env_file:
-      #- stack.env Geht leider ab dann nciht, obwohl in Portainer GUI hochgeladen :(
 
   pgadmin:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     ports:
       - "5050:80"
     restart: always
