@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
     environment:
       JWT_SECRET: ${JWT_SECRET}
-      ADMIN_PASSWORD: §{ADMIN_PASSWORD}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       PORTAINER_CONTAINER_ID: ${PORTAINER_CONTAINER_ID}
       PORTAINER_SECRET: ${PORTAINER_SECRET}
     ports:

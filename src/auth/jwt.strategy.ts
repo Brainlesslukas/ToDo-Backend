@@ -5,6 +5,7 @@ import { Auth } from './auth.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtPayload } from './jwt-payload.interface';
+import * as process from 'node:process';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -17,6 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
 
     console.log('JWT Secret:', process.env.JWT_SECRET);
+    console.log('ADMIN_PASSWORD:', process.env.ADMIN_PASSWORD);
   }
 
   async validate(payload: JwtPayload) {
