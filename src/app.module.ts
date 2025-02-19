@@ -12,19 +12,15 @@ import { StatsModule } from './stats/stats.module';
 import { HttpModule } from '@nestjs/axios';
 import * as process from 'node:process';
 
-const user = process.env.POSTGRES_USER!;
-const password = process.env.POSTGRES_PASSWORD!;
-const db = process.env.POSTGRES_DB!;
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'postgres',
       port: 5432,
-      username: user,
-      password: password,
-      database: db,
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
