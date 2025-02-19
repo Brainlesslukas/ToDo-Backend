@@ -10,7 +10,6 @@ import { TokenGuard } from './stats/stats.guard';
 import { StatsService } from './stats/stats.service';
 import { StatsModule } from './stats/stats.module';
 import { HttpModule } from '@nestjs/axios';
-import * as process from 'node:process';
 
 console.log(process.env.POSTGRES_USER);
 console.log(process.env.POSTGRES_PASSWORD);
