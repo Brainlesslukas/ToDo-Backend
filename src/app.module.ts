@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
-import { Client } from 'minio';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -12,14 +10,21 @@ import { StatsModule } from './stats/stats.module';
 import { StatsController } from './stats/stats.controller';
 import { TokenGuard } from './stats/stats.guard';
 import { StatsService } from './stats/stats.service';
-import { MinioService } from './minio/minio.service';
 import { ToDoController } from './todo/todo.controller';
 import { AuthController } from './auth/auth.controller';
-import { MinioController } from './minio/minio.controller';
-import { MinioModule } from './minio/minio.module';
+import { MinioModule } from 'nestjs-minio-client';
+import { MinioBucketService } from './minio-bucket/minio-bucket.service';
+import { MinioBucketModule } from './minio-bucket/minio-bucket.module';
 
 @Module({
   imports: [
+    MinioModule.register({
+      endPoint: '127.0.0.1',
+      port: 9000,
+      useSSL: false,
+      accessKey: 'admin',
+      secretKey: 'admin123',
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -37,27 +42,9 @@ import { MinioModule } from './minio/minio.module';
     ToDoModule,
     StatsModule,
     HttpModule,
-    MinioModule,
+    MinioBucketModule,
   ],
-  controllers: [AppController, StatsController, ToDoController, AuthController, MinioController],
-  providers: [
-    AppService,
-    TokenGuard,
-    StatsService,
-    {
-      provide: 'MINIO_CLIENT',
-      useFactory: () => {
-        return new Client({
-          endPoint: 'localhost',
-          port: 9000,
-          useSSL: false,
-          accessKey: process.env.MINIO_ACCESS_KEY,
-          secretKey: process.env.MINIO_SECRET_KEY,
-        });
-      },
-    },
-    MinioService,
-  ],
-  exports: ['MINIO_CLIENT'],
+  controllers: [AppController, StatsController, ToDoController, AuthController],
+  providers: [AppService, TokenGuard, StatsService, MinioBucketService],
 })
 export class AppModule {}
