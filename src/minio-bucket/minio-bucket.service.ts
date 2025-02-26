@@ -5,12 +5,13 @@ import { MinioService } from 'nestjs-minio-client';
 export class MinioBucketService {
   constructor(private readonly minioService: MinioService) {}
 
-  async listAllBuckets() {
+  async listAllBuckets(): Promise<any[]> {
     const minioClient = this.minioService.client;
     try {
       return await minioClient.listBuckets();
     } catch (error) {
       console.error(error);
+      throw new Error('Failed to list buckets');
     }
   }
 }
