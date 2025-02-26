@@ -44,7 +44,6 @@ services:
       - postgres
       - minio
     restart: always
-    command: sh -c "until nc -z minio 9000; do echo 'Waiting for Minio...'; sleep 2; done; npm run start:dev"
 
   pgadmin:
     image: dpage/pgadmin4

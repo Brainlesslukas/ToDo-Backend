@@ -14,6 +14,7 @@ import { ToDoController } from './todo/todo.controller';
 import { AuthController } from './auth/auth.controller';
 import { MinioModule } from 'nestjs-minio-client';
 import { MinioBucketModule } from './minio-bucket/minio-bucket.module';
+import { ProfilePictureModule } from './profile-picture/profile-picture.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { MinioBucketModule } from './minio-bucket/minio-bucket.module';
     StatsModule,
     HttpModule,
     MinioBucketModule,
+    ProfilePictureModule,
   ],
   controllers: [AppController, StatsController, ToDoController, AuthController],
   providers: [AppService, TokenGuard, StatsService],

@@ -1,7 +1,5 @@
 FROM node:20-bullseye
 
-RUN apt-get update && apt-get install -y netcat
-
 WORKDIR /usr/src/app
 
 COPY package*.json ./
@@ -14,4 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["npx", "nodemon", "--legacy-watch", "--watch", "src", "--ext", "ts", "--exec", "ts-node src/main.ts"]
+CMD ["npx", "nodemon", "--watch", "src", "--ext", "ts", "--exec", "ts-node src/main.ts", "--legacy-watch", "--polling"]
