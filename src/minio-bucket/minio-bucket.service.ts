@@ -7,6 +7,10 @@ export class MinioBucketService {
 
   async listAllBuckets() {
     const minioClient = this.minioService.client;
-    return minioClient.listBuckets();
+    try {
+      return await minioClient.listBuckets();
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

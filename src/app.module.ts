@@ -13,25 +13,17 @@ import { StatsService } from './stats/stats.service';
 import { ToDoController } from './todo/todo.controller';
 import { AuthController } from './auth/auth.controller';
 import { MinioModule } from 'nestjs-minio-client';
-import { MinioBucketService } from './minio-bucket/minio-bucket.service';
 import { MinioBucketModule } from './minio-bucket/minio-bucket.module';
 
 @Module({
   imports: [
-    MinioModule.register({
-      endPoint: '127.0.0.1',
-      port: 9000,
-      useSSL: false,
-      accessKey: 'admin',
-      secretKey: 'admin123',
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT) || 5432,
+      host: 'postgres',
+      port: 5432,
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
@@ -45,6 +37,6 @@ import { MinioBucketModule } from './minio-bucket/minio-bucket.module';
     MinioBucketModule,
   ],
   controllers: [AppController, StatsController, ToDoController, AuthController],
-  providers: [AppService, TokenGuard, StatsService, MinioBucketService],
+  providers: [AppService, TokenGuard, StatsService],
 })
 export class AppModule {}
