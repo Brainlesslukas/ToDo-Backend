@@ -4,7 +4,7 @@ import { Express } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as process from 'node:process';
-import * as crypto from 'crypto'; // Stellen sicher, dass crypto importiert ist.
+import * as crypto from 'crypto';
 
 const url = process.env.MINIO_ENDPOINT;
 const port = process.env.MINIO_PORT;

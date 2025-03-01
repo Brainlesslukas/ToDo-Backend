@@ -16,6 +16,7 @@ export class AuthService {
   constructor(
     @InjectRepository(Auth)
     private readonly authRepository: Repository<Auth>,
+
     private readonly jwtService: JwtService,
   ) {}
 
@@ -23,18 +24,20 @@ export class AuthService {
     const { name, email, password } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const defaultProfilPicture =
+      'http://localhost:9000/profile-picture/Default_ProfilePicture.png';
 
     const user = this.authRepository.create({
       name,
       email,
       password: hashedPassword,
+      profilpicture_url: defaultProfilPicture,
     });
 
     const isEmailAvailable = await this.authRepository.findOne({
       where: { email },
     });
 
-    //Die Email prüfen, ob Registriert
     if (isEmailAvailable) {
       throw new ConflictException('The Email is already used');
     }
@@ -51,7 +54,7 @@ export class AuthService {
 
     const user = await this.authRepository.findOne({ where: { email } });
 
-    if (!user) {
+    if (!user) { 
       throw new UnauthorizedException('Invalid email or password');
     }
 

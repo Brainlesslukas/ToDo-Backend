@@ -38,4 +38,10 @@ export class Auth extends BaseEntity {
 
   @OneToMany(() => ToDoEntity, (todo) => todo.author)
   todos: ToDoEntity[];
+
+  @Column({
+    type: 'varchar',
+    default: 'http://localhost:9000/profile-picture/Default_ProfilePicture.png'
+  })
+  profilpicture_url: string;
 }

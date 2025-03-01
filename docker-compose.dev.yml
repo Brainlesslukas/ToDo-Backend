@@ -37,6 +37,7 @@ services:
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
       MINIO_PORT: ${MINIO_PORT}
       MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_PROFILE_PICTURE_BUCKET: ${MINIO_PROFILE_PICTURE_BUCKET}
     volumes:
       - ./src:/usr/src/app/src
       - /usr/src/app/node_modules
