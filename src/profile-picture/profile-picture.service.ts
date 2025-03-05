@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { users_data } from '../auth/auth.entity';
 import { profil_picture_data } from './profile-picture.entity';
-import process from "node:process";
+import process from 'node:process';
 
 const url = process.env.MINIO_ENDPOINT;
 const port = process.env.MINIO_PORT;
@@ -25,6 +25,22 @@ export class ProfilePictureService {
 
   hello(): object {
     return { status: 'OK' };
+  }
+
+  async getProfilePicture(userId: string): Promise<object> {
+    const user = await this.users_dataRepository.findOne({
+      where: { id: userId },
+      relations: ['profilPicture'],
+    });
+
+    if (!user || !user.profilPicture) {
+      throw new Error('Profilbild nicht gefunden');
+    }
+
+    return {
+      status: 'Success',
+      url: user.profilPicture.profilpicture_url,
+    };
   }
 
   async uploadProfilePicture(

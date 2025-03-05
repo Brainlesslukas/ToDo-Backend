@@ -19,8 +19,10 @@ export class ProfilePictureController {
 
   @Get()
   @UseGuards(AuthGuard('jwt'))
-  hello(): object {
-    return this.profilePictureService.hello();
+  async getProfilePicture(@Req() req: Request) {
+    const user = req.user as User;
+    const userId = user.id;
+    return this.profilePictureService.getProfilePicture(userId);
   }
 
   @Post('upload')
