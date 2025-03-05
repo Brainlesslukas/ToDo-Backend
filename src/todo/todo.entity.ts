@@ -9,7 +9,7 @@ import {
   JoinColumn,
   Generated,
 } from 'typeorm';
-import { Auth } from '../auth/auth.entity';
+import { users_data } from '../auth/auth.entity';
 
 @Entity('todo_data')
 export class ToDoEntity extends BaseEntity {
@@ -56,9 +56,9 @@ export class ToDoEntity extends BaseEntity {
   @Generated('increment')
   todo_number: number;
 
-  @ManyToOne(() => Auth, (auth) => auth.todos)
+  @ManyToOne(() => users_data, (users_data) => users_data.todos)
   @JoinColumn({ name: 'authorId' })
-  author: Auth;
+  author: users_data;
 
   @Column()
   authorId: string;

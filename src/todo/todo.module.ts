@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { Auth } from '../auth/auth.entity';
+import { users_data } from '../auth/auth.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ToDoController } from './todo.controller';
 import { ToDoService } from './todo.service';
@@ -8,7 +8,7 @@ import { ToDoEntity } from './todo.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Auth]),
+    TypeOrmModule.forFeature([users_data]),
     TypeOrmModule.forFeature([ToDoEntity]),
     AuthModule,
   ],

@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { Auth } from './auth.entity';
+import { users_data } from './auth.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JwtPayload } from './jwt-payload.interface';
@@ -10,7 +10,8 @@ import * as process from 'node:process';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectRepository(Auth) private authRepository: Repository<Auth>,
+    @InjectRepository(users_data)
+    private users_dataRepository: Repository<users_data>,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -24,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtPayload) {
     const { id } = payload;
 
-    const user = await this.authRepository.findOneBy({ id });
+    const user = await this.users_dataRepository.findOneBy({ id });
 
     if (!user) {
       throw new UnauthorizedException('Login to access this endpoint.');

@@ -5,17 +5,21 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Auth } from './auth.entity';
+import { users_data } from './auth.entity';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { profil_picture_data } from '../profile-picture/profile-picture.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(Auth)
-    private readonly authRepository: Repository<Auth>,
+    @InjectRepository(users_data)
+    private readonly users_dataRepository: Repository<users_data>,
+
+    @InjectRepository(profil_picture_data)
+    private readonly profil_picture_dataRepository: Repository<profil_picture_data>,
 
     private readonly jwtService: JwtService,
   ) {}
@@ -27,14 +31,17 @@ export class AuthService {
     const defaultProfilPicture =
       'http://localhost:9000/profile-picture/Default_ProfilePicture.png';
 
-    const user = this.authRepository.create({
-      name,
-      email,
-      password: hashedPassword,
+    const profilPicture = this.profil_picture_dataRepository.create({
       profilpicture_url: defaultProfilPicture,
     });
 
-    const isEmailAvailable = await this.authRepository.findOne({
+    const user = this.users_dataRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    const isEmailAvailable = await this.users_dataRepository.findOne({
       where: { email },
     });
 
@@ -42,7 +49,13 @@ export class AuthService {
       throw new ConflictException('The Email is already used');
     }
 
-    await this.authRepository.save(user);
+    await this.users_dataRepository.save(user);
+
+    profilPicture.user = user;
+    await this.profil_picture_dataRepository.save(profilPicture);
+
+    user.profilPicture = profilPicture;
+    await this.users_dataRepository.save(user);
 
     const token = this.jwtService.sign({ id: user.id });
 
@@ -52,9 +65,9 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { email, password } = loginDto;
 
-    const user = await this.authRepository.findOne({ where: { email } });
+    const user = await this.users_dataRepository.findOne({ where: { email } });
 
-    if (!user) { 
+    if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }
 

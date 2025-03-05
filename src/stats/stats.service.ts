@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Auth } from '../auth/auth.entity';
+import { users_data } from '../auth/auth.entity';
 import { Repository } from 'typeorm';
 import { ToDoEntity } from '../todo/todo.entity';
 import { HttpService } from '@nestjs/axios';
@@ -10,8 +10,8 @@ import * as process from 'node:process';
 @Injectable()
 export class StatsService {
   constructor(
-    @InjectRepository(Auth)
-    private readonly authRepository: Repository<Auth>,
+    @InjectRepository(users_data)
+    private readonly users_dataRepository: Repository<users_data>,
 
     @InjectRepository(ToDoEntity)
     private readonly toDoEntityRepository: Repository<ToDoEntity>,
@@ -20,7 +20,7 @@ export class StatsService {
   ) {}
 
   async countUsers(): Promise<number> {
-    return this.authRepository.count();
+    return this.users_dataRepository.count();
   }
 
   async countTodos(): Promise<number> {

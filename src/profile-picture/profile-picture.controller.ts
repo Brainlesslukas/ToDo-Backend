@@ -11,6 +11,7 @@ import { ProfilePictureService } from './profile-picture.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { User } from '../auth/user.interface';
 
 @Controller('profile-picture')
 export class ProfilePictureController {
@@ -29,16 +30,13 @@ export class ProfilePictureController {
     @Req() req: Request,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const userId = req.auth?.id;
+    const user = req.user as User;
+    const userId = user.id;
 
     if (!userId) {
       throw new Error('User ID not found');
     }
 
-    const result = await this.profilePictureService.uploadProfilePicture(
-      file,
-      userId,
-    );
-    return result;
+    return await this.profilePictureService.uploadProfilePicture(file, userId);
   }
 }

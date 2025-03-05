@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { MinioService } from 'nestjs-minio-client';
 import { Express } from 'express';
-import * as fs from 'fs';
-import path from 'path';
-import * as process from 'node:process';
-import * as crypto from 'crypto';
+import * as path from 'path';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Auth } from '../auth/auth.entity';
+import { users_data } from '../auth/auth.entity';
+import { profil_picture_data } from './profile-picture.entity';
+import process from "node:process";
 
 const url = process.env.MINIO_ENDPOINT;
 const port = process.env.MINIO_PORT;
@@ -17,49 +16,60 @@ export class ProfilePictureService {
   constructor(
     private readonly minioService: MinioService,
 
-    @InjectRepository(Auth)
-    private readonly AuthRepository: Repository<Auth>,
+    @InjectRepository(users_data)
+    private readonly users_dataRepository: Repository<users_data>,
+
+    @InjectRepository(profil_picture_data)
+    private readonly profil_picture_dataRepository: Repository<profil_picture_data>,
   ) {}
 
   hello(): object {
-    return {
-      status: 'OK',
-    };
+    return { status: 'OK' };
   }
 
   async uploadProfilePicture(
     file: Express.Multer.File,
-    userId: number,
+    userId: string,
   ): Promise<object> {
+    console.log('User ID:', userId);
     const bucketName = 'profile-picture';
 
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
-
     const fileDate = `${day}-${month}-${year}`;
 
     const originalName = file.originalname;
     const extname = path.extname(originalName);
-    const basename = path.basename(originalName, extname);
+    const fileName = `${userId}_${fileDate}${extname}`;
+    const ProfilPictureUrl = `http://localhost:9000/${bucketName}/${fileName}`;
 
-    const fileName = `${fileDate}_${basename}${extname}`;
-
-    const stream = file.buffer;
-
-    const ProfilePictureUrl = `http://localhost:9000/${bucketName}/${fileName}`;
-
-    const newProfilePicture = this.AuthRepository.update(userId, {
-      profilpicture_url: ProfilePictureUrl,
+    const user = await this.users_dataRepository.findOne({
+      where: { id: userId },
+      relations: ['profilPicture'],
     });
 
-    await this.minioService.client.putObject(bucketName, fileName, stream);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const profilePicture =
+      user.profilPicture ||
+      this.profil_picture_dataRepository.create({
+        user: user,
+      });
+
+    profilePicture.profilpicture_url = ProfilPictureUrl;
+
+    await this.profil_picture_dataRepository.save(profilePicture);
+
+    await this.minioService.client.putObject(bucketName, fileName, file.buffer);
 
     return {
-      message: `Die Datei wurde als ${fileName} erfolgreich hochgeladen und in der Datenbank (Minio und Postgres) gesichert!`,
+      message: `Die Datei wurde als ${fileName} erfolgreich hochgeladen und gespeichert!`,
       status: 'Success',
-      url: `Die Datei ist unter ${url}:${port}/${bucketName}/${fileName} erreichbar.`,
+      url: `${url}:${port}/${bucketName}/${fileName}`,
     };
   }
 }

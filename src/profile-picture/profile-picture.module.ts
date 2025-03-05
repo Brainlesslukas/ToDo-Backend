@@ -4,7 +4,8 @@ import { ProfilePictureController } from './profile-picture.controller';
 import { MinioModule } from 'nestjs-minio-client';
 import process from 'node:process';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Auth } from '../auth/auth.entity'
+import { users_data } from '../auth/auth.entity';
+import { profil_picture_data } from './profile-picture.entity';
 
 @Global()
 @Module({
@@ -16,7 +17,8 @@ import { Auth } from '../auth/auth.entity'
       accessKey: process.env.MINIO_ACCESS_KEY || '',
       secretKey: process.env.MINIO_SECRET_KEY || '',
     }),
-    TypeOrmModule.forFeature([Auth]),
+    TypeOrmModule.forFeature([users_data]),
+    TypeOrmModule.forFeature([profil_picture_data]),
   ],
   providers: [ProfilePictureService],
   controllers: [ProfilePictureController],
