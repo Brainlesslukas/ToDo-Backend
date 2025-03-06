@@ -23,10 +23,6 @@ export class ProfilePictureService {
     private readonly profil_picture_dataRepository: Repository<profil_picture_data>,
   ) {}
 
-  hello(): object {
-    return { status: 'OK' };
-  }
-
   async getProfilePicture(userId: string): Promise<object> {
     const user = await this.users_dataRepository.findOne({
       where: { id: userId },
