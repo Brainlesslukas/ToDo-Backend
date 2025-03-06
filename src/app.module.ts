@@ -15,6 +15,8 @@ import { AuthController } from './auth/auth.controller';
 import { MinioModule } from 'nestjs-minio-client';
 import { MinioBucketModule } from './minio-bucket/minio-bucket.module';
 import { ProfilePictureModule } from './profile-picture/profile-picture.module';
+import { ProfilController } from './profil/profil.controller';
+import { ProfilModule } from './profil/profil.module';
 
 @Module({
   imports: [
@@ -37,8 +39,9 @@ import { ProfilePictureModule } from './profile-picture/profile-picture.module';
     HttpModule,
     MinioBucketModule,
     ProfilePictureModule,
+    ProfilModule,
   ],
-  controllers: [AppController, StatsController, ToDoController, AuthController],
+  controllers: [AppController, StatsController, ToDoController, AuthController, ProfilController],
   providers: [AppService, TokenGuard, StatsService],
 })
 export class AppModule {}
