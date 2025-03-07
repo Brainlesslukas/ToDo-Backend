@@ -16,3 +16,5 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
+
+//Start Docker COmpose Dev: docker compose -f docker-compose.dev.yml up

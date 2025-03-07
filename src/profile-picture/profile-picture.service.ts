@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { MinioService } from 'nestjs-minio-client';
-import { Express } from 'express';
+import { Express, Response } from 'express';
 import * as path from 'path';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { users_data } from '../auth/auth.entity';
 import { profil_picture_data } from './profile-picture.entity';
 import process from 'node:process';
+
 
 const url = process.env.MINIO_ENDPOINT;
 const port = process.env.MINIO_PORT;
@@ -23,20 +24,33 @@ export class ProfilePictureService {
     private readonly profil_picture_dataRepository: Repository<profil_picture_data>,
   ) {}
 
-  async getProfilePicture(userId: string): Promise<object> {
+  async getProfilPicture(userId: string, res: Response) {
     const user = await this.users_dataRepository.findOne({
       where: { id: userId },
       relations: ['profilPicture'],
     });
 
     if (!user || !user.profilPicture) {
-      throw new Error('Profilbild nicht gefunden');
+      throw new NotFoundException('Profilbild nicht gefunden');
     }
 
-    return {
-      status: 'Success',
-      url: user.profilPicture.profilpicture_url,
-    };
+    const filePath = user.profilPicture.profilpicture_url
+      .split('/')
+      .slice(-1)[0];
+    const bucketName = 'profile-picture';
+
+    try {
+      const objectStream = await this.minioService.client.getObject(
+        bucketName,
+        filePath,
+      );
+
+      res.setHeader('Content-Type', 'image/jpeg');
+      objectStream.pipe(res);
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Bildes:', error);
+      throw new NotFoundException('Fehler beim Abrufen des Bildes');
+    }
   }
 
   async uploadProfilePicture(
