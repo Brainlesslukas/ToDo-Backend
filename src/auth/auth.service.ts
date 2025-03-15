@@ -11,6 +11,9 @@ import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { profil_picture_data } from '../profile-picture/profile-picture.entity';
+import * as nodemailer from 'nodemailer';
+import { ConfigService } from '@nestjs/config';
+import process from 'node:process';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +25,41 @@ export class AuthService {
     private readonly profil_picture_dataRepository: Repository<profil_picture_data>,
 
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
+
+  emailTransport() {
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: Number(process.env.EMAIL_PORT),
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+    return transporter;
+  }
+  async sendEmail(to: string, subject: string, text: string, html?: string) {
+    const transporter = this.emailTransport();
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to,
+      subject,
+      text,
+      html,
+    };
+
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email sent: ', info.response);
+      return info;
+    } catch (error) {
+      console.error('Error sending email: ', error);
+      throw new Error('Error sending email');
+    }
+  }
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { name, email, password } = signUpDto;
@@ -56,6 +93,13 @@ export class AuthService {
 
     user.profilPicture = profilPicture;
     await this.users_dataRepository.save(user);
+
+    await this.sendEmail(
+      user.email,
+      'Welcome to Our Service!',
+      'Thank you for signing up!',
+      '<h1>Welcome to Our Service!</h1><p>Thank you for signing up!</p>',
+    );
 
     const token = this.jwtService.sign({ id: user.id });
 

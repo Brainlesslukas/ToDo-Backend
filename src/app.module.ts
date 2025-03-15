@@ -17,7 +17,6 @@ import { MinioBucketModule } from './minio-bucket/minio-bucket.module';
 import { ProfilePictureModule } from './profile-picture/profile-picture.module';
 import { ProfilController } from './profil/profil.controller';
 import { ProfilModule } from './profil/profil.module';
-//import * as nodemailer from 'nodemailer';
 
 @Module({
   imports: [
@@ -53,22 +52,6 @@ import { ProfilModule } from './profil/profil.module';
     AppService,
     TokenGuard,
     StatsService,
-    //{
-    //  provide: 'MAILER_TRANSPORT',
-    //  inject: [ConfigService],
-    //  useFactory: (configService: ConfigService) => {
-    //    return nodemailer.createTransport({
-    //      host: configService.get<string>('MAIL_HOST'),
-    //      port: configService.get<number>('MAIL_PORT'),
-    //      secure: false, // true für SSL (Port 465)
-    //      auth: {
-    //        user: configService.get<string>('MAIL_USER'),
-    //        pass: configService.get<string>('MAIL_PASS'),
-    //      },
-    //    });
-    //  },
-    //},
   ],
- // exports: ['MAILER_TRANSPORT'],
 })
 export class AppModule {}
