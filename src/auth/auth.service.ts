@@ -94,12 +94,12 @@ export class AuthService {
     user.profilPicture = profilPicture;
     await this.users_dataRepository.save(user);
 
-    await this.sendEmail(
-      user.email,
-      'Welcome to Our Service!',
-      'Thank you for signing up!',
-      '<h1>Welcome to Our Service!</h1><p>Thank you for signing up!</p>',
-    );
+    //await this.sendEmail(
+    //  user.email,
+    // `Welcome to Our Service ${name}`,
+    // 'Thank you for signing up!',
+    // `<h1>Welcome to Our Service, ${name}</h1><br><p>Thank you for signing up!</p>`,
+    //);
 
     const token = this.jwtService.sign({ id: user.id });
 

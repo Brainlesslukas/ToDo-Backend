@@ -29,4 +29,13 @@ export class ProfilService {
       email: user.email,
     };
   }
+
+  async deleteAccount(userId: string): Promise<object> {
+    await this.users_dataRepository.delete(userId);
+
+    return {
+      status: 'Success',
+      message: `Deleted user ${userId}`,
+    };
+  }
 }
