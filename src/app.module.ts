@@ -17,6 +17,8 @@ import { MinioBucketModule } from './minio-bucket/minio-bucket.module';
 import { ProfilePictureModule } from './profile-picture/profile-picture.module';
 import { ProfilController } from './profil/profil.controller';
 import { ProfilModule } from './profil/profil.module';
+import { HelpBotController } from './help-bot/help-bot.controller';
+import { HelpBotModule } from './help-bot/help-bot.module';
 
 @Module({
   imports: [
@@ -40,6 +42,7 @@ import { ProfilModule } from './profil/profil.module';
     MinioBucketModule,
     ProfilePictureModule,
     ProfilModule,
+    HelpBotModule,
   ],
   controllers: [
     AppController,
@@ -47,6 +50,7 @@ import { ProfilModule } from './profil/profil.module';
     ToDoController,
     AuthController,
     ProfilController,
+    HelpBotController,
   ],
   providers: [
     AppService,
